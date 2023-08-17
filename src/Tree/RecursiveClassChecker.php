@@ -2,12 +2,16 @@
 
 namespace Synaptio\DI\Tree;
 
-class MakeClassMap implements ClassMap
+class RecursiveClassChecker
 {
     private array $map = [];
 
-    public function add(string $className, array $stack)
+    public function isExistInClassMap(string $className): bool
     {
-        // TODO: Implement add() method.
+        if (isset($this->map[$className])) {
+            return true;
+        }
+        $this->map[$className] = $className;
+        return false;
     }
 }

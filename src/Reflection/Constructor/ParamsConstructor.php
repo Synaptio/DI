@@ -8,6 +8,7 @@ use ReflectionParameter;
 use Synaptio\DI\DIContainer;
 use Synaptio\DI\Reflection\Constructor\DTO\DefaultValueConstructorParameters;
 use Synaptio\DI\Reflection\Constructor\DTO\ConstructorParameters;
+use Synaptio\DI\Tree\RecursiveClassChecker;
 
 class ParamsConstructor implements Constructor
 {

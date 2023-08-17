@@ -4,8 +4,10 @@ namespace Synaptio\DI;
 
 use ReflectionClass;
 use Synaptio\DI\Exceptions\ClassNotFound;
+use Synaptio\DI\Exceptions\RecursiveClass;
 use Synaptio\DI\Reflection\Constructor\CreateConstructor;
 use Synaptio\DI\Tree\ClassResolver;
+use Synaptio\DI\Tree\RecursiveClassChecker;
 
 class DIContainer
 {
@@ -16,14 +18,20 @@ class DIContainer
         self::$bindings = $bindings;
     }
 
-    public static function make(string $className): object
+    public static function make(string $className, ?RecursiveClassChecker $recursiveClassChecker = null): object
     {
         $className = (new ClassResolver(self::$bindings, $className))->resolve();
         if (!class_exists($className)) {
             throw new ClassNotFound($className);
         }
+        if ($recursiveClassChecker === null) {
+            $recursiveClassChecker = new RecursiveClassChecker();
+        }
+        if ($recursiveClassChecker->isExistInClassMap($className)) {
+            throw new RecursiveClass($className);
+        }
         $constructor = new CreateConstructor($className);
-        $parameters = $constructor->resolveParameters();
+        $parameters = $constructor->resolveParameters($recursiveClassChecker);
 
         return new $className(...$parameters);
     }
