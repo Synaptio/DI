@@ -9,7 +9,7 @@ class EmptyConstructor implements Constructor
     /**
      * @return ConstructorParameters[]
      */
-    public function resolveParameters(array $bindings): array
+    public function resolveParameters(): array
     {
         return [];
     }

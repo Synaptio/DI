@@ -9,5 +9,5 @@ interface Constructor
     /**
      * @return ConstructorParameters[]
      */
-    public function resolveParameters(array $bindings): array;
+    public function resolveParameters(): array;
 }

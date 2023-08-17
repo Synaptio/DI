@@ -27,10 +27,10 @@ class CreateConstructor implements Constructor
     /**
      * @return ReflectionParameter[]
      */
-    public function resolveParameters(array $bindings): array
+    public function resolveParameters(): array
     {
         $paramsMap = [];
-        $parameters = $this->constructor->resolveParameters($bindings);
+        $parameters = $this->constructor->resolveParameters();
         foreach ($parameters as $parameter) {
             $paramsMap[] = (new ParametersResolver($parameter))->resolve();
         }

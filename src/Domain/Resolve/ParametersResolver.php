@@ -13,7 +13,7 @@ class ParametersResolver
     )
     {}
 
-    public function resolve(array $bindings): mixed
+    public function resolve(): mixed
     {
         if (!class_exists($this->constructorParameters->getType())) {
             if ($this->constructorParameters->getDefaultValueConstructorParameters() === null) {

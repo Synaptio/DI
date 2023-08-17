@@ -19,7 +19,7 @@ class ParamsConstructor implements Constructor
      * @return ConstructorParameters[]
      * @throws \ReflectionException
      */
-    #[Pure] public function resolveParameters(array $bindings): array
+    #[Pure] public function resolveParameters(): array
     {
         $parameters = $this->constructor->getParameters();
         $parametersDTO = [];
