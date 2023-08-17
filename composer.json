@@ -1,0 +1,22 @@
+{
+    "name": "synaptio/di",
+    "description": "Implementing the Dependency Injection Pattern",
+    "type": "library",
+    "require": {
+        "php": "^8.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Synaptio\\DI\\": "src/",
+            "Synaptio\\DI\\Dev\\": "dev/"
+        }
+    },
+    "authors": [
+        {
+            "name": "KreeK",
+            "email": "kirillnovikovofficial@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
