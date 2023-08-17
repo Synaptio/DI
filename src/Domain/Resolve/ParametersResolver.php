@@ -14,19 +14,26 @@ class ParametersResolver
     )
     {}
 
-    public function resolve(RecursiveClassChecker $recursiveClassChecker): mixed
+    public function resolve(array $params, RecursiveClassChecker $recursiveClassChecker): mixed
     {
-        if (!class_exists($this->constructorParameters->getType())) {
-            if ($this->constructorParameters->getDefaultValueConstructorParameters() === null) {
-                throw new ResolveException(sprintf('Param %s haven\\\t default value.',
-                    $this->constructorParameters->getName()
-                ));
-            }
-
-            return $this->constructorParameters->getDefaultValueConstructorParameters()->getDefault();
+        $constructorParameters = $this->constructorParameters;
+        if (class_exists($constructorParameters->getType())) {
+           return DIContainer::make($constructorParameters->getType(), [], $recursiveClassChecker);
         }
 
-        return DIContainer::make($this->constructorParameters->getType(), $recursiveClassChecker);
+        if (isset($params[$constructorParameters->getName()])) {
+            return $params[$constructorParameters->getName()];
+        }
+        if (isset($params[$constructorParameters->getPosition()])) {
+            return $params[$constructorParameters->getPosition()];
+        }
+
+        if ($this->constructorParameters->getDefaultValueConstructorParameters() !== null) {
+            return $this->constructorParameters->getDefaultValueConstructorParameters()->getDefault();
+        }
+        throw new ResolveException(sprintf('Param %s haven\\\t default value.',
+            $this->constructorParameters->getName()
+        ));
     }
 
 }

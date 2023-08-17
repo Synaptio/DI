@@ -18,7 +18,7 @@ class DIContainer
         self::$bindings = $bindings;
     }
 
-    public static function make(string $className, ?RecursiveClassChecker $recursiveClassChecker = null): object
+    public static function make(string $className, array $params = [], ?RecursiveClassChecker $recursiveClassChecker = null): object
     {
         $className = (new ClassResolver(self::$bindings, $className))->resolve();
         if (!class_exists($className)) {
@@ -31,7 +31,7 @@ class DIContainer
             throw new RecursiveClass($className);
         }
         $constructor = new CreateConstructor($className);
-        $parameters = $constructor->resolveParameters($recursiveClassChecker);
+        $parameters = $constructor->resolveParameters($params, $recursiveClassChecker);
 
         return new $className(...$parameters);
     }

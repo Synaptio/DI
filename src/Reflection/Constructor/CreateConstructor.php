@@ -8,6 +8,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 use Synaptio\DI\DIContainer;
 use Synaptio\DI\Domain\Resolve\ParametersResolver;
+use Synaptio\DI\Helpers\Array\SorterParameters;
 use Synaptio\DI\Tree\RecursiveClassChecker;
 
 class CreateConstructor
@@ -28,12 +29,13 @@ class CreateConstructor
     /**
      * @return ReflectionParameter[]
      */
-    public function resolveParameters(RecursiveClassChecker $recursiveClassChecker): array
+    public function resolveParameters(array $params, RecursiveClassChecker $recursiveClassChecker): array
     {
         $paramsMap = [];
         $parameters = $this->constructor->resolveParameters();
+        $params = (new SorterParameters($params))->sort();
         foreach ($parameters as $parameter) {
-            $paramsMap[] = (new ParametersResolver($parameter))->resolve($recursiveClassChecker);
+            $paramsMap[] = (new ParametersResolver($parameter))->resolve($params, $recursiveClassChecker);
         }
         return $paramsMap;
     }
